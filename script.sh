@@ -64,6 +64,7 @@ then
         echo "Трат не найдено"
         echo "Используйте команду для добавления трат:"
         echo "$0 amount reason"
+        exit 0
     fi
 
 else
