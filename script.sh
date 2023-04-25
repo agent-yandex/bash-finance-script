@@ -17,7 +17,7 @@ fi
 arg1=$1
 arg2=$2
 
-# 2 случая: arg1 = history или arg1 = сумме
+# 2 случая: arg1 = history или arg1 = числу
 if [[ $arg1 == "history" ]]
 then
     # проверка на наличие бд
@@ -40,7 +40,7 @@ then
             "декабрь") num_month=12;;
         esac
 
-        if [[ $num_month != 0 ]]
+        if [[ $num_month -gt 0 ]]
         then
             actual_year=$(date +"%Y")
             # проверяем есть ли траты в данном месяце
@@ -48,10 +48,17 @@ then
 
             if [[ $count -gt 0 ]]
             then
-                echo "В месяце $arg2 вы совершили следующие траты:"
+                # считаем сумму, потраченную в данном месяце
+                sum=0
+                while read line
+                do
+                    amount=$(echo $line | awk '{print $3}')
+                    sum=$(($sum+$amount))
+                done < data.txt
+
+                echo "В месяце $arg2 вы потратили - $sum руб."
                 # выводим построчно все подходящие даты (по году и месяцу)
                 grep "^$actual_year.$num_month" data.txt
-                # grep "^.....$num_month" data.txt | cut -c 14- | nl -s ") "
             else
                 echo "В месяце $arg2 вы не совершали трат"
                 exit 0
@@ -61,7 +68,7 @@ then
             exit 0
         fi
     else
-        echo "Трат не найдено"
+        echo "Трат не найдено!"
         echo "Используйте команду для добавления трат:"
         echo "$0 amount reason"
         exit 0
@@ -74,10 +81,12 @@ else
         date=$(date +"%Y-%m-%d") # получение актуальной даты
 
         # запись траты в файл data.txt
-        echo "$date - $arg1 рублей на $arg2" >> data.txt
+        echo "$date - $arg1 руб. на $arg2" >> data.txt
         echo "Трата успешно записана в файл"
     else
         echo "Некорректная сумма"
         exit 0
     fi
+fi
+
 fi
