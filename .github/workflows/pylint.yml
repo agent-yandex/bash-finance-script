@@ -1,0 +1,13 @@
+name: Проверка репозитория
+on: [push]
+jobs:
+  tests:
+    name: Тесты скриптов
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Тест
+      run: |
+        chmod +x test_finance.sh
+        chmod +x script.sh
+        ./test_finance.sh
