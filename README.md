@@ -1,4 +1,7 @@
 # Скрипт для учета расходов
+<a href="https://github.com/agent-yandex/bash-finance-script/actions">
+  <img alt="Tests Passing" src="https://github.com/anuraghazra/github-readme-stats/workflows/Test/badge.svg" />
+</a>
 
 Скрипт написан на bash и имеет небольшой функционал. Основная задача - практика в работе с файлами и парсингом аргументов.
 
